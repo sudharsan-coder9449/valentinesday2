@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Our Love Story 💖</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
         body {
@@ -11,23 +12,41 @@
             background: linear-gradient(to right, #ff758c, #ff7eb3);
             text-align: center;
             color: white;
-            overflow: hidden;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .container {
-            margin-top: 10px;
-            position: relative;
-            z-index: 2;
+            width: 95%;
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 26px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+
+        p {
+            font-size: 16px;
         }
 
         .options button {
             display: block;
-            margin: 10px auto;
-            padding: 10px 20px;
-            width: 250px;
+            margin: 12px auto;
+            padding: 12px 20px;
+            width: 100%;
+            max-width: 300px;
             border: none;
             border-radius: 25px;
-            font-size: 16px;
+            font-size: 17px;
             cursor: pointer;
             background-color: white;
             color: #ff4d6d;
@@ -43,15 +62,15 @@
         }
 
         #finalSection img {
-            width: 70%;
-            max-width: 220px;
+            width: 100%;
+            max-width: 250px;
             height: auto;
             border-radius: 20px;
             margin: 15px 0;
             box-shadow: 0 0 20px white;
         }
 
-        /* ❤️🎉 CELEBRATION ANIMATION */
+        /* ❤️ Celebration Animation */
         .celebration {
             position: fixed;
             top: 0;
@@ -257,3 +276,4 @@
 
 </body>
 </html>
+
