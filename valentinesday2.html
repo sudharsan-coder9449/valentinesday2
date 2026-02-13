@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Our Love Story 💖</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+            text-align: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            margin-top: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .options button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            width: 250px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: white;
+            color: #ff4d6d;
+            transition: 0.3s;
+        }
+
+        .options button:hover {
+            transform: scale(1.05);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #finalSection img {
+            width: 70%;
+            max-width: 220px;
+            height: auto;
+            border-radius: 20px;
+            margin: 15px 0;
+            box-shadow: 0 0 20px white;
+        }
+
+        /* ❤️🎉 CELEBRATION ANIMATION */
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            top: -20px;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="celebration"></div>
+
+    <div class="container">
+        <h1 id="question"></h1>
+        <div id="options" class="options"></div>
+        <p id="result"></p>
+
+        <div id="finalSection" class="hidden">
+            <h2>When was this picture taken? 📸💖</h2>
+            <img src="final.jpg" alt="Love Image">
+            <div id="finalOptions" class="options"></div>
+            <p id="finalResult"></p>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "When did we first meet? 💕",
+                options: ["Jan 20", "March 10", "June 21","Aug 21"],
+                correct: 1
+            },
+            {
+                question: "What i first gifted? 😍",
+                options: ["Kiss", "Hug", "Chocolate", "Ring"],
+                correct: 1
+            },
+            {
+                question: "Tell me where do you want to travel next? ❤️",
+                options: ["Kodaikkanal", "Kerala", "Pillayar Kovil", "Switzerland"],
+                correct: 2
+            },
+            {
+                question: "What is my favorite thing about you? 😘",
+                options: ["Smile", "Anger", "Attitude", "Silence"],
+                correct: 0
+            }
+        ];
+
+        let currentQuestion = 0;
+
+        const questionEl = document.getElementById("question");
+        const optionsEl = document.getElementById("options");
+        const resultEl = document.getElementById("result");
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            questionEl.innerText = q.question;
+            optionsEl.innerHTML = "";
+            resultEl.innerText = "";
+
+            q.options.forEach((option, index) => {
+                const button = document.createElement("button");
+                button.innerText = option;
+                button.onclick = () => checkAnswer(index);
+                optionsEl.appendChild(button);
+            });
+        }
+
+        function checkAnswer(index) {
+            if (index === questions[currentQuestion].correct) {
+                triggerCelebration();
+                currentQuestion++;
+
+                if (currentQuestion < questions.length) {
+                    loadQuestion();
+                } else {
+                    showFinal();
+                }
+            } else {
+                resultEl.innerText = "Oops 😜 Try Again!";
+            }
+        }
+
+        function showFinal() {
+            questionEl.style.display = "none";
+            optionsEl.style.display = "none";
+            resultEl.style.display = "none";
+
+            const finalSection = document.getElementById("finalSection");
+            const finalOptions = document.getElementById("finalOptions");
+            const finalResult = document.getElementById("finalResult");
+
+            finalSection.classList.remove("hidden");
+
+            const finalQuestionData = {
+                options: ["Jan 20", "March 10", "Aug 21", "Dec 25"],
+                correct: 1
+            };
+
+            finalOptions.innerHTML = "";
+            finalResult.innerText = "";
+
+            finalQuestionData.options.forEach((option, index) => {
+                const button = document.createElement("button");
+                button.innerText = option;
+
+                button.onclick = () => {
+                    if (index === finalQuestionData.correct) {
+                        finalResult.innerText = "Correct 😘❤️";
+                        startContinuousCelebration();
+                    } else {
+                        finalResult.innerText = "Wrong 😜 Try Again!";
+                    }
+                };
+
+                finalOptions.appendChild(button);
+            });
+        }
+
+        function triggerCelebration() {
+            const container = document.querySelector(".celebration");
+
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement("div");
+                particle.classList.add("particle");
+
+                if (Math.random() > 0.5) {
+                    particle.innerHTML = "❤️";
+                    particle.style.fontSize = (Math.random() * 20 + 15) + "px";
+                } else {
+                    particle.style.width = "10px";
+                    particle.style.height = "10px";
+                    particle.style.background =
+                        Math.random() > 0.5 ? "#ff4d6d" : "#ffffff";
+                    particle.style.borderRadius =
+                        Math.random() > 0.5 ? "50%" : "0%";
+                }
+
+                particle.style.left = Math.random() * 100 + "vw";
+                particle.style.animationDuration =
+                    Math.random() * 2 + 2 + "s";
+
+                container.appendChild(particle);
+
+                setTimeout(() => {
+                    particle.remove();
+                }, 3000);
+            }
+        }
+
+        function startContinuousCelebration() {
+            const container = document.querySelector(".celebration");
+
+            setInterval(() => {
+                const particle = document.createElement("div");
+                particle.classList.add("particle");
+
+                if (Math.random() > 0.5) {
+                    particle.innerHTML = "❤️";
+                    particle.style.fontSize = (Math.random() * 20 + 15) + "px";
+                } else {
+                    particle.style.width = "10px";
+                    particle.style.height = "10px";
+                    particle.style.background =
+                        Math.random() > 0.5 ? "#ff4d6d" : "#ffffff";
+                    particle.style.borderRadius =
+                        Math.random() > 0.5 ? "50%" : "0%";
+                }
+
+                particle.style.left = Math.random() * 100 + "vw";
+                particle.style.animationDuration =
+                    Math.random() * 3 + 2 + "s";
+
+                container.appendChild(particle);
+
+                setTimeout(() => {
+                    particle.remove();
+                }, 5000);
+
+            }, 150);
+        }
+
+        loadQuestion();
+    </script>
+
+</body>
+</html>
