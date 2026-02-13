@@ -26,17 +26,9 @@
             padding: 20px;
         }
 
-        h1 {
-            font-size: 26px;
-        }
-
-        h2 {
-            font-size: 22px;
-        }
-
-        p {
-            font-size: 16px;
-        }
+        h1 { font-size: 26px; }
+        h2 { font-size: 22px; }
+        p { font-size: 16px; }
 
         .options button {
             display: block;
@@ -57,20 +49,16 @@
             transform: scale(1.05);
         }
 
-        .hidden {
-            display: none;
-        }
+        .hidden { display: none; }
 
-        #finalSection img {
+        img {
             width: 100%;
             max-width: 250px;
-            height: auto;
             border-radius: 20px;
             margin: 15px 0;
             box-shadow: 0 0 20px white;
         }
 
-        /* ❤️ Celebration Animation */
         .celebration {
             position: fixed;
             top: 0;
@@ -98,181 +86,176 @@
 
 <body>
 
-    <div class="celebration"></div>
+<div class="celebration"></div>
 
-    <div class="container">
-        <h1 id="question"></h1>
-        <div id="options" class="options"></div>
-        <p id="result"></p>
+<div class="container">
+    <h1 id="question"></h1>
+    <div id="options" class="options"></div>
+    <p id="result"></p>
 
-        <div id="finalSection" class="hidden">
-            <h2>When was this picture taken? 📸💖</h2>
-            <img src="final.jpg" alt="Love Image">
-            <div id="finalOptions" class="options"></div>
-            <p id="finalResult"></p>
-        </div>
+    <div id="finalSection" class="hidden">
+        <h2>When was this picture taken? 📸💖</h2>
+        <img src="final.jpg" alt="Love Image">
+        <div id="finalOptions" class="options"></div>
+        <p id="finalResult"></p>
     </div>
 
-    <script>
-        const questions = [
-            {
-                question: "When did we first meet? 💕",
-                options: ["Jan 20", "March 10", "June 21","Aug 21"],
-                correct: 1
-            },
-            {
-                question: "What i first gifted? 😍",
-                options: ["Kiss", "Hug", "Chocolate", "Ring"],
-                correct: 1
-            },
-            {
-                question: "Tell me where do you want to travel next? ❤️",
-                options: ["Kodaikkanal", "Kerala", "Pillayar Kovil", "Switzerland"],
-                correct: 2
-            },
-            {
-                question: "What is my favorite thing about you? 😘",
-                options: ["Smile", "Anger", "Attitude", "Silence"],
-                correct: 0
-            }
-        ];
+    <!-- NEW VALENTINE SECTION -->
+    <div id="valentineSection" class="hidden">
+        <h2>Will you be my Valentine 💗?</h2>
+        <div class="options">
+            <button onclick="valentineAnswer(true)">Yes 💖</button>
+            <button onclick="valentineAnswer(false)">No 😜</button>
+        </div>
+        <p id="valentineResult"></p>
+    </div>
+</div>
 
-        let currentQuestion = 0;
+<script>
+const questions = [
+    {
+        question: "When did we first meet? 💕",
+        options: ["Jan 20", "March 10", "June 21","Aug 21"],
+        correct: 1
+    },
+    {
+        question: "What i first gifted? 😍",
+        options: ["Kiss", "Hug", "Chocolate", "Ring"],
+        correct: 1
+    },
+    {
+        question: "Tell me where do you want to travel next? ❤️",
+        options: ["Kodaikkanal", "Thiruchy", "Pillayar Kovil", "Switzerland"],
+        correct: 2
+    },
+    {
+        question: "What is my favorite thing about you? 😘",
+        options: ["Smile", "Anger", "Attitude", "Silence"],
+        correct: 0
+    }
+];
 
-        const questionEl = document.getElementById("question");
-        const optionsEl = document.getElementById("options");
-        const resultEl = document.getElementById("result");
+let currentQuestion = 0;
 
-        function loadQuestion() {
-            const q = questions[currentQuestion];
-            questionEl.innerText = q.question;
-            optionsEl.innerHTML = "";
-            resultEl.innerText = "";
+const questionEl = document.getElementById("question");
+const optionsEl = document.getElementById("options");
+const resultEl = document.getElementById("result");
 
-            q.options.forEach((option, index) => {
-                const button = document.createElement("button");
-                button.innerText = option;
-                button.onclick = () => checkAnswer(index);
-                optionsEl.appendChild(button);
-            });
+function loadQuestion() {
+    const q = questions[currentQuestion];
+    questionEl.innerText = q.question;
+    optionsEl.innerHTML = "";
+    resultEl.innerText = "";
+
+    q.options.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.innerText = option;
+        button.onclick = () => checkAnswer(index);
+        optionsEl.appendChild(button);
+    });
+}
+
+function checkAnswer(index) {
+    if (index === questions[currentQuestion].correct) {
+        triggerCelebration();
+        currentQuestion++;
+
+        if (currentQuestion < questions.length) {
+            loadQuestion();
+        } else {
+            showFinal();
         }
+    } else {
+        resultEl.innerText = "Oops 😜 Try Again!";
+    }
+}
 
-        function checkAnswer(index) {
-            if (index === questions[currentQuestion].correct) {
+function showFinal() {
+    questionEl.style.display = "none";
+    optionsEl.style.display = "none";
+    resultEl.style.display = "none";
+
+    const finalSection = document.getElementById("finalSection");
+    const finalOptions = document.getElementById("finalOptions");
+    const finalResult = document.getElementById("finalResult");
+
+    finalSection.classList.remove("hidden");
+
+    const finalQuestionData = {
+        options: ["April 26", "March 10", "Aug 21", "Dec 25"],
+        correct: 0
+    };
+
+    finalOptions.innerHTML = "";
+    finalResult.innerText = "";
+
+    finalQuestionData.options.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.innerText = option;
+
+        button.onclick = () => {
+            if (index === finalQuestionData.correct) {
+                finalResult.innerText = "Correct 😘❤️";
                 triggerCelebration();
-                currentQuestion++;
-
-                if (currentQuestion < questions.length) {
-                    loadQuestion();
-                } else {
-                    showFinal();
-                }
+                setTimeout(showValentine, 1500);
             } else {
-                resultEl.innerText = "Oops 😜 Try Again!";
+                finalResult.innerText = "Wrong 😜 Try Again!";
             }
-        }
+        };
 
-        function showFinal() {
-            questionEl.style.display = "none";
-            optionsEl.style.display = "none";
-            resultEl.style.display = "none";
+        finalOptions.appendChild(button);
+    });
+}
 
-            const finalSection = document.getElementById("finalSection");
-            const finalOptions = document.getElementById("finalOptions");
-            const finalResult = document.getElementById("finalResult");
+function showValentine() {
+    document.getElementById("finalSection").style.display = "none";
+    document.getElementById("valentineSection").classList.remove("hidden");
+}
 
-            finalSection.classList.remove("hidden");
+function valentineAnswer(answer) {
+    const result = document.getElementById("valentineResult");
+    if (answer) {
+        result.innerText = "Thankyouu for made my day special Muyaluukuttyy 💗";
+        startContinuousCelebration();
+    } else {
+        result.innerText = "No ah? 😜 I will ask again until you say Yes 💖";
+    }
+}
 
-            const finalQuestionData = {
-                options: ["Jan 20", "March 10", "Aug 21", "Dec 25"],
-                correct: 1
-            };
+function triggerCelebration() {
+    const container = document.querySelector(".celebration");
 
-            finalOptions.innerHTML = "";
-            finalResult.innerText = "";
+    for (let i = 0; i < 30; i++) {
+        const particle = document.createElement("div");
+        particle.classList.add("particle");
+        particle.innerHTML = "❤️";
+        particle.style.fontSize = (Math.random() * 20 + 15) + "px";
+        particle.style.left = Math.random() * 100 + "vw";
+        particle.style.animationDuration = Math.random() * 2 + 2 + "s";
+        container.appendChild(particle);
 
-            finalQuestionData.options.forEach((option, index) => {
-                const button = document.createElement("button");
-                button.innerText = option;
+        setTimeout(() => particle.remove(), 3000);
+    }
+}
 
-                button.onclick = () => {
-                    if (index === finalQuestionData.correct) {
-                        finalResult.innerText = "Correct 😘❤️";
-                        startContinuousCelebration();
-                    } else {
-                        finalResult.innerText = "Wrong 😜 Try Again!";
-                    }
-                };
+function startContinuousCelebration() {
+    const container = document.querySelector(".celebration");
 
-                finalOptions.appendChild(button);
-            });
-        }
+    setInterval(() => {
+        const particle = document.createElement("div");
+        particle.classList.add("particle");
+        particle.innerHTML = "❤️";
+        particle.style.fontSize = (Math.random() * 20 + 15) + "px";
+        particle.style.left = Math.random() * 100 + "vw";
+        particle.style.animationDuration = Math.random() * 3 + 2 + "s";
+        container.appendChild(particle);
 
-        function triggerCelebration() {
-            const container = document.querySelector(".celebration");
+        setTimeout(() => particle.remove(), 5000);
+    }, 200);
+}
 
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement("div");
-                particle.classList.add("particle");
-
-                if (Math.random() > 0.5) {
-                    particle.innerHTML = "❤️";
-                    particle.style.fontSize = (Math.random() * 20 + 15) + "px";
-                } else {
-                    particle.style.width = "10px";
-                    particle.style.height = "10px";
-                    particle.style.background =
-                        Math.random() > 0.5 ? "#ff4d6d" : "#ffffff";
-                    particle.style.borderRadius =
-                        Math.random() > 0.5 ? "50%" : "0%";
-                }
-
-                particle.style.left = Math.random() * 100 + "vw";
-                particle.style.animationDuration =
-                    Math.random() * 2 + 2 + "s";
-
-                container.appendChild(particle);
-
-                setTimeout(() => {
-                    particle.remove();
-                }, 3000);
-            }
-        }
-
-        function startContinuousCelebration() {
-            const container = document.querySelector(".celebration");
-
-            setInterval(() => {
-                const particle = document.createElement("div");
-                particle.classList.add("particle");
-
-                if (Math.random() > 0.5) {
-                    particle.innerHTML = "❤️";
-                    particle.style.fontSize = (Math.random() * 20 + 15) + "px";
-                } else {
-                    particle.style.width = "10px";
-                    particle.style.height = "10px";
-                    particle.style.background =
-                        Math.random() > 0.5 ? "#ff4d6d" : "#ffffff";
-                    particle.style.borderRadius =
-                        Math.random() > 0.5 ? "50%" : "0%";
-                }
-
-                particle.style.left = Math.random() * 100 + "vw";
-                particle.style.animationDuration =
-                    Math.random() * 3 + 2 + "s";
-
-                container.appendChild(particle);
-
-                setTimeout(() => {
-                    particle.remove();
-                }, 5000);
-
-            }, 150);
-        }
-
-        loadQuestion();
-    </script>
+loadQuestion();
+</script>
 
 </body>
 </html>
